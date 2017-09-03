@@ -1,0 +1,61 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+Load the mushroom data. From the Data Set Description, we should see 8,124 cases and 22 atributes in addition to the class (edible or poisonous).
+
+```{r}
+mrdata <- read.csv(url("https://archive.ics.uci.edu/ml/machine-learning-databases/mushroom/agaricus-lepiota.data"), header=FALSE)
+dim(mrdata)
+```
+
+Let's look at a couple records:
+```{r}
+head(mrdata)
+```
+
+Create a data frame with a subset of the columns in the dataset.You should include the column that indicates edible or poisonous and three or four other columns.  
+
+```{r}
+subset <- mrdata[,c("V1","V2","V6","V11","V22","V23")]
+head(subset)
+dim(subset)
+```
+
+You should also add meaningful column names and replace the abbreviations used in the data-for example, in the appropriate column, "e" might become "edible."
+
+```{r}
+names(subset) <- c("class","cap-shape","odor","stalk-shape","population","habitat")
+names(subset)
+head(subset)
+```
+Replace abbreviations:
+
+```{r}
+subset$class <- ifelse(subset$class == 'e', 'edible','poisonous')
+library(plyr)
+subset$`cap-shape` <- revalue(subset$'cap-shape', c('b'='bell', 'c'='conical', 'x'='convex', 'f'='flat', 'k'='knobbed', 's'='sunken'))
+subset$odor <-revalue(subset$odor, c('a'='almond', 'l'='anise','c'='creosote', 'y'='fishy', 'f'='foul', 'm'='musty','n'='none','p'='pungent', 's'='spicy'))
+subset$`stalk-shape` <- revalue(subset$`stalk-shape`, c('e'='enlarging','t'='tapering'))
+subset$population <- revalue(subset$population, c('a'='abundant','c'='clustered', 'n'='numerous', 's'='scattered','v'='several','y'='solitary'))
+subset$habitat <- revalue(subset$habitat, c('g'='grasses','l'='leaves','m'='meadows','p'='paths','u'='urban', 'w'='waste','d'='woods'))
+```
+
+
+Look at this distrubition of levels to ensure revalued.
+```{r}
+table(subset$`cap-shape`)
+table(subset$odor)
+table(subset$`stalk-shape`)
+table(subset$population)
+table(subset$habitat)
+```
+
+Save the original and subset datasets to Github
+
+```{r}
+save(mrdata, file="mrdata.Rda")
+save(subset, file="mrsubdata.Rda")
+```
+
