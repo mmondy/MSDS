@@ -1,0 +1,80 @@
+---
+title: "Movie Rating Assignment"
+author: "Michelle Mondy"
+date: "September 9, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Assignment - SQL and R
+Choose six recent popular movies.  Ask at least five people that you know (friends,  family,  classmates, imaginary friends) to rate each of these movie that they have seen on a scale of 1 to 5.  Take the results (observations) and store them in a SQL database. Load the information into an R dataframe. 
+
+## Connect to the MySQL database
+I created a schema called "movies" which holds the person, movie, and ratings tables.
+
+```{r , echo=FALSE}
+pass <- 'sqlpass'
+```
+
+```{r}
+library(RMySQL)
+drv <- dbDriver("MySQL")
+con <- dbConnect(drv, user="root", password = pass, dbname="movies", host="localhost")
+```
+
+
+## Query to pull data from the MySQL connection
+
+```{r}
+query <- "select * 
+          from person a 
+          inner join ratings b on a.person_ID = b.person_ID
+          inner join movie c on b.movie_ID = c.movie_ID ;"
+```
+
+
+## Load the information into an R dataframe
+
+```{r}
+movie_ratings <- fetch(dbSendQuery(con, query))
+
+head(movie_ratings)
+```
+
+## Analysis
+
+Which movie had the most reviews?
+Note: Null values are present in the rating field when the person did not see the movie. Therefore, the person could not provide a rating.
+
+```{r}
+most_reviewed <- "select movie_name, count(rating)
+                from ratings b 
+                inner join movie c on b.movie_ID = c.movie_ID
+                where rating is not null
+                group by movie_name
+                order by 2 desc limit 1;"
+fetch(dbSendQuery(con, most_reviewed))
+```
+
+
+
+Which movie had the best average rating among the 5 reviewers? 
+Note: null values are not included in the average
+```{r}
+best_rating <- "select movie_name, avg(rating)
+                from ratings b 
+                inner join movie c on b.movie_ID = c.movie_ID
+                group by movie_name
+                order by 2 desc limit 1;"
+fetch(dbSendQuery(con, best_rating))
+```
+
+
+
