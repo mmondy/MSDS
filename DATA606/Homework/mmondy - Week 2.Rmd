@@ -1,0 +1,60 @@
+---
+title: "Week 2 Assignment"
+author: "Michelle Mondy"
+date: "September 14, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 2.6
+a) 0
+b) 4/36
+c) 1/36
+
+## 2.8
+a) No, living below the poverty line and speaking a foreign language are not disjoint. 4.2% fall into both categories.
+b) 
+c) 10.4% live below the poverty line and only speak english
+d) 10.4% + 4.2% + 16.5% = 31.1% 
+e) 1-0.311 = 68.9%
+f) P(LBP) x P(SLOE) =? P(LBP and SLOE)
+0.146 x 0.207 = 0.0302 <> 4.2%
+No, the events are not independent. 
+
+## 2.20
+a) P(Mbl or Fbl) = P(Mbl) + P(Fbl) - P(Mbl and Fbl)
+  = (114+108-78)/204 = 144/204 = 70.6%
+b) P(Mbl | Fbl) = (78/204)/(108/204) = 72.21%
+c) P(Mbr | Fbl) = (19/204)/(108/204) = 17.59%
+   P(Mg | Fbl) =  (11/204)/(108/204) = 10.19%
+d) Yes, it does appear that the eye colors of male respondents and their partners are independent. 
+72.21% + 17.59% + 10.19% = 100% (slightly off from rounding)
+The probabilities are conditioned on the same information (Female partner having blue eyes) and they sum to 1. This indicates independence.
+
+## 2.30
+a) (28/95)*(67/94) = 21%
+b) (72/95)*(28/94) = 22.6%
+c) (72/95)*(28/95) = 22.3%
+d) When the sample size is only a small fraction of the population, observations are nearly independent even when sampling without replacement.
+
+## 2.38
+see PDF/Word doc for solution
+
+##2.44
+b)62.2%
+
+
+```{r}
+
+```
+
+
+
+
