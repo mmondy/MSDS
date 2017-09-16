@@ -1,0 +1,137 @@
+---
+title: "Week 3 Assignment"
+author: "Michelle Mondy"
+date: "September 15, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 3
+Load the stringr library, raw.data string, and name vector
+
+```{r}
+library(stringr)
+raw.data <-"555-1239Moe Szyslak(636) 555-0113Burns, C. Montgomery555-6542Rev. Timothy Lovejoy555 8904Ned Flanders636-555-3226Simpson, Homer5553642Dr. Julius Hibbert"
+name <- unlist(str_extract_all(raw.data, "[[:alpha:]., ]{2,}"))
+name 
+```
+
+a)Rearrange the vector so that all elements conform to the standard first_name last_name
+
+```{r}
+test <- str_replace_all(name, "([[:alpha:]]+), ([[:alpha:].]+).*", "\\2 \\1")
+test <- str_replace_all(test, "[[:alpha:]]{2,}\\. ([[:alpha:]]+) ([[:alpha:]]+)", "\\1 \\2")
+
+test
+```
+
+
+b) Construct a logical vector indicating whether a character has a title.
+```{r}
+str_detect(name, "Rev.|Dr.")
+
+str_detect(name, "[[:alpha:]]{2,}\\.")
+```
+
+
+c) Contruct a logical vector indicating whether a character has a second name.
+
+I was really struggling how to get to a solution for this one. I knew how to detect the number of title words from part c, so I counted the number of words in each element and subtracted the number of title words. From there we can see that only the second element has more than 2 non-title words. Therefore, the second element has a second (or middle) name.
+
+```{r}
+Title_words <- str_count(name, "[[:alpha:]]{2,}\\.")
+all_words <- str_count(name, "\\w+")
+
+all_words-Title_words
+
+str_detect(all_words-Title_words, "3")
+
+```
+
+
+
+## Question 4
+Describe the types of strings that conform to the following regular expressions and construct an example that is matched by the regular expression.
+
+a)  [0-9]+\\$
+
+One or more digits 0-9, followed by a $. For example, 0$, 900$, 6$ etc. 
+```{r}
+example.a <- "0$, 900$, 6$, $, $500, $10"
+unlist(str_extract_all(example.a, "[0-9]+\\$"))
+```
+
+b)  \\b[a-z]{1,4}\\b.b
+
+Any lower case word that is between 1 and 4 characters
+```{r}
+example.b <- "This string will have 31 words returned from the regular expression. The first word of each sentence is not included because it starts with a capital, even though it is between 1 and 4 characters. Even though there is a period at the end of this sentence, the word will be included since it specifies the word edge."
+
+unlist(str_extract_all(example.b, "\\b[a-z]{1,4}\\b"))
+
+str_count(example.b, "\\b[a-z]{1,4}\\b")
+```
+
+c)  .*?\\.txt$
+
+Any string that ends in .txt. It can even be ".txt" because the wild card can be matched zero or more times. The ? means optional which is weird to have in this example, since the * already means zero or more times. 
+
+```{r}
+example.c <- c(".txt$", ".txt", "a.txt", "b.txt", "abcd.txt", "123.txt", "something really long.txt", "test")
+
+
+unlist(str_extract_all(example.c, ".*?\\.txt$"))
+```
+
+
+d)  \\d{2}/\\d{2}/\\d{4}
+
+Any date in the form of MM/DD/YYYY or DD/MM/YYYY. Any 2 digits followed by a slash and 2 more digits, followed by a slash and 4 digits.
+
+```{r}
+example.d <- "I will test out several dates. 
+05/15/2017 
+6/12/2015
+12/04/2014 
+03-03-2003
+We should expect to receive 2 results. "
+
+unlist(str_extract_all(example.d, "\\d{2}/\\d{2}/\\d{4}"))
+```
+
+e)  <(.+?)>.+?</\\1>
+
+This is searching for an XML element. It would look for the opening tag, some content within the element, and then a matching closing tag. 
+
+```{r}
+example.e <- "Here are a couple examples:
+<note>
+<greeting>Hello</greeting>
+<heading>Reminder</heading>
+<body>Don't forget me this weekend!</body>
+</note>
+Since I wrote these on separate lines, R adds a new line (\n) to the string and will not pull the note tag using this regex. The default behavior is to delimit the input string by new lines."
+
+unlist(str_extract_all(example.e, "<(.+?)>.+?</\\1>"))
+```
+
+
+
+## Question 9
+
+Find the secret message
+```{r}
+text <- "clcopCow1zmstc0d87wnkig7OvdicpNuggvhryn92Gjuwczi8hqrfpRxs5Aj5dwpn0TanwoUwisdij7Lj8kpf03AT5Idr3coc0bt7yczjatOaootj55t3Nj3ne6c4Sfek.r1w1YwwojigOd6vrfUrbz2.2bkAnbhzgv4R9i05zEcrop.wAgnb.SqoU65fPa1otfb7wEm24k6t3sR9zqe5fy89n6Nd5t9kc4fE905gmc4Rgxo5nhDk!gr"
+
+message <- cat(unlist(str_extract_all(text, "[A-Z]|[[:punct:]]")),sep="")
+
+```
+
+
