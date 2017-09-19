@@ -1,0 +1,28 @@
+---
+title: "Project 1"
+author: "Michelle Mondy"
+date: "September 17, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(RCurl)
+
+test <- download.file("https://bbhosted.cuny.edu/bbcswebdav/pid-30972653-dt-content-rid-133062709_1/courses/SPS01_DATA_607_01_1179_1/SPS01_DATA_607_01_1179_1_ImportedContent_20170718014832/SPS01_DATA_607_01_1169_1_ImportedContent_20160815114002/SPS01_DATA_607_01_1162_1_ImportedContent_20160126062155/tournamentinfo.txt", "test.csv", method="curl")
+
+
+file_url <- "https://bbhosted.cuny.edu/bbcswebdav/pid-30972653-dt-content-rid-133062709_1/xid-133062709_1"
+chess_data_url <- file_url
+gap_data <- read.csv(textConnection(chess_data_url), sep="")
+View(gap_data)
+
+```
+
