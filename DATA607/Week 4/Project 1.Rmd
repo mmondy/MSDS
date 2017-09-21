@@ -1,0 +1,140 @@
+---
+title: "Project 1"
+author: "Michelle Mondy"
+date: "September 17, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Load the Rcurl package and the data into R
+I had some help from Dave on getting this url to work. I ultimately saved the tournamentinfo.txt link to github which I am referencing below. I chose to exclude headers for now and will reassign them later.
+
+```{r}
+library(RCurl)
+url <- "https://raw.githubusercontent.com/mmondy/MSDS/master/DATA607/Week%204/tournamentinfo.txt"
+data1 <- getURL(url)
+data <- read.csv(textConnection(data1), skip=4, header=FALSE, sep="|")
+View(data)
+```
+
+##Remove every 3rd row
+Every third row is a row of dashes so I want to remove that from the output.I consulted StackOverflow for help in finding multiples of 3.
+
+```{r}
+rows_in_data= 1:192
+every_3_row = (rows_in_data %% 3)==0
+
+new_data <- data[!every_3_row,]
+```
+
+##Combine the even and odd rows to one line
+
+```{r}
+odd_rows <- new_data[c(TRUE,FALSE),]
+even_rows <- new_data[c(FALSE,TRUE),]
+
+even_rows$V11 = c(1:64)
+odd_rows$V11 = c(1:64)
+
+combined_data <- merge(even_rows, odd_rows, by="V11")
+```
+
+##Keep only the desired columns
+
+```{r}
+chess_data <- combined_data[c("V11","V2.y", "V1.x", "V3.y", "V2.x", "V4.y", "V5.y", "V6.y", "V7.y", "V8.y", "V9.y", "V10.y")]
+View(chess_data)
+```
+
+##Find the Player's Pre Rating using str_split and Regex
+I had to go to stackoverflow for help with extracting the second element of each vector using sapply.
+
+```{r}
+library(stringr)
+rating1 <- sapply(str_split(chess_data$V2.x, "R: "), "[", 2) 
+rating2 <- str_extract(rating1, "[[:digit:]]{3,4}")
+
+chess_data$Player_Pre_Rating <- as.integer(rating2)
+```
+
+##Find the opponent number from the round variables using regex
+
+```{r}
+chess_data$Round1_Opp <- as.integer(str_extract(chess_data$V4.y, "[[:digit:]]{1,2}"))
+chess_data$Round2_Opp <- as.integer(str_extract(chess_data$V5.y, "[[:digit:]]{1,2}"))
+chess_data$Round3_Opp <- as.integer(str_extract(chess_data$V6.y, "[[:digit:]]{1,2}"))
+chess_data$Round4_Opp <- as.integer(str_extract(chess_data$V7.y, "[[:digit:]]{1,2}"))
+chess_data$Round5_Opp <- as.integer(str_extract(chess_data$V8.y, "[[:digit:]]{1,2}"))
+chess_data$Round6_Opp <- as.integer(str_extract(chess_data$V9.y, "[[:digit:]]{1,2}"))
+chess_data$Round7_Opp <- as.integer(str_extract(chess_data$V10.y, "[[:digit:]]{1,2}"))
+```
+
+```{r}
+chess_data2 <- chess_data[c("V11","Player_Pre_Rating")]
+```
+
+
+
+```{r}
+library(sqldf)
+
+Round1_Opp_Rating <- sqldf("select b.Player_Pre_Rating from chess_data a left join chess_data2 b on a.Round1_Opp = b.V11")
+Round1_Opp_Rating[is.na(Round1_Opp_Rating)]<-0
+
+Round2_Opp_Rating <- sqldf("select b.Player_Pre_Rating from chess_data a left join chess_data2 b on a.Round2_Opp = b.V11")
+Round2_Opp_Rating[is.na(Round2_Opp_Rating)]<-0
+
+Round3_Opp_Rating <- sqldf("select b.Player_Pre_Rating from chess_data a left join chess_data2 b on a.Round3_Opp = b.V11")
+Round3_Opp_Rating[is.na(Round3_Opp_Rating)]<-0
+
+Round4_Opp_Rating <- sqldf("select b.Player_Pre_Rating from chess_data a left join chess_data2 b on a.Round4_Opp = b.V11")
+Round4_Opp_Rating[is.na(Round4_Opp_Rating)]<-0
+
+Round5_Opp_Rating <- sqldf("select b.Player_Pre_Rating from chess_data a left join chess_data2 b on a.Round5_Opp = b.V11")
+Round5_Opp_Rating[is.na(Round5_Opp_Rating)]<-0
+
+Round6_Opp_Rating <- sqldf("select b.Player_Pre_Rating from chess_data a left join chess_data2 b on a.Round6_Opp = b.V11")
+Round6_Opp_Rating[is.na(Round6_Opp_Rating)]<-0
+
+Round7_Opp_Rating <- sqldf("select b.Player_Pre_Rating from chess_data a left join chess_data2 b on a.Round7_Opp = b.V11")
+Round7_Opp_Rating[is.na(Round7_Opp_Rating)]<-0
+
+chess_data$Opp_score <- Round1_Opp_Rating + Round2_Opp_Rating + Round3_Opp_Rating + Round4_Opp_Rating + Round5_Opp_Rating + Round6_Opp_Rating + Round7_Opp_Rating
+```
+
+
+
+```{r}
+game1 <- ifelse(Round1_Opp_Rating == 0, 0, 1)
+game2 <- ifelse(Round2_Opp_Rating == 0, 0, 1)
+game3 <- ifelse(Round3_Opp_Rating == 0, 0, 1)
+game4 <- ifelse(Round4_Opp_Rating == 0, 0, 1)
+game5 <- ifelse(Round5_Opp_Rating == 0, 0, 1)
+game6 <- ifelse(Round6_Opp_Rating == 0, 0, 1)
+game7 <- ifelse(Round7_Opp_Rating == 0, 0, 1)
+
+chess_data$total_games <- game1+game2+game3+game4+game5+game6+game7
+
+chess_data$Avg_Pre_Chess_Rat_Opp <- round(chess_data$Opp_score/chess_data$total_games, digits=0)
+```
+
+
+##Create final data frame with the just the fields needed
+```{r}
+final_data <- chess_data[c("V2.y", "V1.x", "V3.y", "Player_Pre_Rating", "Avg_Pre_Chess_Rat_Opp")]
+names(final_data) <- c("Player_Name", "Player_State", "Tot_Num_Points", "Player_Pre_Rating", "Avg_Pre_Chess_Rat_Opp")
+```
+
+##write final CSV file
+
+```{r}
+write.csv(final_data, file="Project_1_data.csv")
+```
+
