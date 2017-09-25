@@ -135,6 +135,8 @@ names(final_data) <- c("Player_Name", "Player_State", "Tot_Num_Points", "Player_
 ##write final CSV file
 
 ```{r}
-write.csv(final_data, file="Project_1_data.csv")
+write.csv(final_data, file="Project_1_data.csv", row.names=FALSE)
 ```
 
+
+##Strip out the white space from player name... as well as fix the average column. 
