@@ -134,7 +134,7 @@ final_data <- chess_data[c("V2.y", "V1.x", "V3.y", "Player_Pre_Rating", "Avg_Pre
 names(final_data) <- c("Player_Name", "Player_State", "Tot_Num_Points", "Player_Pre_Rating", "Avg_Pre_Chess_Rat_Opp")
 final_data$Player_Name <- trimws(final_data$Player_Name, which = "both")
 final_data$Player_State <- trimws(final_data$Player_State, which="both")
-final_data$Tot_Num_Points <- as.numeric(final_data$Tot_Num_Points)
+final_data$Tot_Num_Points <- as.numeric(trimws(final_data$Tot_Num_Points,which="both"))
 ```
 
 ##Write final CSV file
