@@ -64,7 +64,7 @@ rating2 <- str_extract(rating1, "[[:digit:]]{3,4}")
 chess_data$Player_Pre_Rating <- as.integer(rating2)
 ```
 
-##Find the opponent number from the round variables using regex
+##Find the opponent Pre Rating from the Round variables using regex
 
 ```{r}
 chess_data$Round1_Opp <- as.integer(str_extract(chess_data$V4.y, "[[:digit:]]{1,2}"))
@@ -76,11 +76,13 @@ chess_data$Round6_Opp <- as.integer(str_extract(chess_data$V9.y, "[[:digit:]]{1,
 chess_data$Round7_Opp <- as.integer(str_extract(chess_data$V10.y, "[[:digit:]]{1,2}"))
 ```
 
+
+##Create a data frame for cross joining to calculate the Average Pre Chess Rating of Opponents (Avg_Pre_Chess_Rat_Opp)
 ```{r}
 chess_data2 <- chess_data[c("V11","Player_Pre_Rating")]
 ```
 
-
+##Join the original chess_data data frame with the data frame above to find the rating of each opponent for each round.
 
 ```{r}
 library(sqldf)
@@ -109,7 +111,7 @@ Round7_Opp_Rating[is.na(Round7_Opp_Rating)]<-0
 chess_data$Opp_score <- Round1_Opp_Rating + Round2_Opp_Rating + Round3_Opp_Rating + Round4_Opp_Rating + Round5_Opp_Rating + Round6_Opp_Rating + Round7_Opp_Rating
 ```
 
-
+##Determine the number of games played to use in the final calculation for the Avg_Pre_Chess_Rat_Opp
 
 ```{r}
 game1 <- ifelse(Round1_Opp_Rating == 0, 0, 1)
@@ -126,17 +128,16 @@ chess_data$Avg_Pre_Chess_Rat_Opp <- unlist(round(chess_data$Opp_score/chess_data
 ```
 
 
-##Create final data frame with the just the fields needed
+##Create final data frame with the just the fields needed and trim the whitespace from Player Name
 ```{r}
 final_data <- chess_data[c("V2.y", "V1.x", "V3.y", "Player_Pre_Rating", "Avg_Pre_Chess_Rat_Opp")]
 names(final_data) <- c("Player_Name", "Player_State", "Tot_Num_Points", "Player_Pre_Rating", "Avg_Pre_Chess_Rat_Opp")
+final_data$Player_Name <- trimws(final_data$Player_Name, which = "both")
 ```
 
-##write final CSV file
+##Write final CSV file
 
 ```{r}
 write.csv(final_data, file="Project_1_data.csv", row.names=FALSE)
 ```
 
-
-##Strip out the white space from player name... as well as fix the average column. 
