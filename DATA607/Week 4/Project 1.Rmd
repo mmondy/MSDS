@@ -122,7 +122,7 @@ game7 <- ifelse(Round7_Opp_Rating == 0, 0, 1)
 
 chess_data$total_games <- game1+game2+game3+game4+game5+game6+game7
 
-chess_data$Avg_Pre_Chess_Rat_Opp <- round(chess_data$Opp_score/chess_data$total_games, digits=0)
+chess_data$Avg_Pre_Chess_Rat_Opp <- unlist(round(chess_data$Opp_score/chess_data$total_games, digits=0))
 ```
 
 
