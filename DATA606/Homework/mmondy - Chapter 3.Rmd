@@ -1,0 +1,231 @@
+---
+title: "Chapter 3 Assignment"
+author: "Michelle Mondy"
+date: "October 1, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#3.2: Area under the curve, Part II
+What percentage of a standard normal distribution is found in each region. Be sure to draw a graph. 
+I found some code online which I repurposed to include a graph.
+
+## a) Z > -1.13
+```{r}
+1 - pnorm(-1.13, 0, 1)
+
+x=seq(-3,3,length=200)
+y=dnorm(x,mean=0,sd=1)
+plot(x,y,type="l")
+x=seq(-1.13,3,length=100)
+y=dnorm(x,mean=0,sd=1)
+polygon(c(-1.13,x,3),c(0,y,0),col="grey")
+```
+
+## b) Z < 0.18
+```{r}
+pnorm(0.18, 0, 1)
+
+x=seq(-3,3,length=200)
+y=dnorm(x,mean=0,sd=1)
+plot(x,y,type="l")
+x=seq(-3,0.18,length=100)
+y=dnorm(x,mean=0,sd=1)
+polygon(c(-3,x,0.18),c(0,y,0),col="grey")
+```
+
+## c) Z > 8
+For this one, there wouldn't be any grey on the graph since we are looking from -3 to 3 on the x axis. This would be a very small area under the curve, basically 0.
+```{r}
+1 - pnorm(8, 0, 1)
+
+x=seq(-3,3,length=200)
+y=dnorm(x,mean=0,sd=1)
+plot(x,y,type="l")
+x=seq(8,3,length=100)
+y=dnorm(x,mean=0,sd=1)
+polygon(c(8,x,3),c(0,y,0),col="grey")
+```
+
+## d)|Z| < 0.5
+Another way to write this would be:
+-0.5 < Z < 0.5
+```{r}
+pnorm(0.5, 0, 1) - pnorm(-0.5, 0, 1)
+
+x=seq(-3,3,length=200)
+y=dnorm(x,mean=0,sd=1)
+plot(x,y,type="l")
+x=seq(-.5,.5,length=100)
+y=dnorm(x,mean=0,sd=1)
+polygon(c(-.5,x,.5),c(0,y,0),col="grey")
+```
+
+#3.4 Triathlon time, Part I.
+
+## a) Write down the short-hand for these two normal distributions
+Men, Ages 30-34: N($\mu$=4313, $\sigma$=583)
+Women, Ages 25-29: N($\mu$=5261, $\sigma$=807)
+
+## b) What are the Z-scores for Leo and Mary? What do they tell you?
+
+Leo:
+```{r}
+(4948-4313)/583
+```
+
+Mary:
+```{r}
+(5513-5261)/807
+```
+
+The Z-scores tell us that Leo finished 1.09 standard deviations above the mean, while Mary finished 0.31 standard deviations above the mean in their respective groups. 
+
+## c) 
+Based on the Z-scores we can see that Leo ranked better in his respective group than Mary since his Z-score is higher. 
+
+## d) 
+Leo finished faster than 86% of triathletes in his group.
+
+```{r}
+pnorm(1.09, 0, 1)
+```
+
+## e) 
+Mary finished faster than 62% of triathletes in her group.
+
+```{r}
+pnorm(.31,0,1)
+```
+
+## f) 
+If the distributions for finishing times are not nearly normal, the answer to part b would stay the same since we can still calculate Z-scores. However, we would not be able to answer parts c-e since we can not use the standard normal distribution. 
+
+# 3.18 Heights of female college students
+
+## a)
+68% of the data fall within 1 sd of the mean, 96% fall within 2 sd's of the mean, and 100% of the data fall within 3 sd's of the mean. We can therefore say that the data approximately follow the 68-95-99.7% rule.
+
+```{r}
+heights <- c(54,55,56,56,57,58,58,59,60,60,60,61,61,62,62,63,63,63,64,65,65,67,67,69,73)
+
+within1sd <- heights[heights >= 61.52 - 4.58 & heights <= 61.52 + 4.58]
+length(within1sd)/length(heights)
+
+within2sd <- heights[heights >= 61.52 - (2*4.58) & heights <= 61.52 + (2*4.58)]
+length(within2sd)/length(heights)
+
+within3sd <- heights[heights >= 61.52 - (3*4.58) & heights <= 61.52 + (3*4.58)]
+length(within3sd)/length(heights)
+```
+
+## b)
+The data do appear to follow a normal distribution based on the graphs provided. The distribution is unimodal and symmetric and the normal curve approximates the distibution pretty well. The points on the normal probability plot also seem to follow a straight line.
+
+#3.22 Defective Rate
+
+## a) 
+What is the probability that the 10th transistor produced is the first with a defect?
+
+```{r}
+(1-.02)^9*(.02)
+```
+
+## b) 
+What is the probability that the machine produced no defects in a batch of 100?
+```{r}
+choose(100,0)*(.02)^0*(1-.02)^100
+```
+
+## c) 
+On average, how many transistors would you expect to be produced before the first with a defect? What is the standard deviation?
+
+$\mu$:
+```{r}
+1/.02
+```
+
+$\sigma$:
+```{r}
+sqrt((1-.02)/(.02)^2)
+```
+
+## d) 
+Another machine has a 5% defective rate where each transistor is produced independent of the others. On average, how many transistors would you expect to be produced before the first with a defect? What is the standard deviation?
+
+$\mu$:
+```{r}
+1/.05
+```
+
+$\sigma$:
+```{r}
+sqrt((1-.05)/(.05)^2)
+```
+
+## e)
+Increase the probability of an event, lowers the mean and standard deviation of the wait time until a success.
+
+#3.38 Male Children.
+
+##a)
+```{r}
+choose(3,2)*(.51)^2*(1-.51)^1
+```
+
+##b) 
+Write out all the possible orderings of three children, 2 of whom are boys.
+
+BBG, BGB, GBB
+
+```{r}
+BBG = .51*.51*.49
+BGB = .51*.49*.51
+GBB = .49*.51*.51
+
+BBG+BGB+GBB
+```
+
+## c)
+The approach from part be would be more tedious because you would need to list each possible combination and its probability, and then add them together. Since the couple plans to have 8 kids, there would be 56 possible combinations with 3 boys. 
+```{r}
+choose(8,3)
+```
+
+
+#3.42 Serving in Volleyball.
+
+## a) 
+What is the probability that on the 10th try, she will make her 3rd successful serve.
+p=.15
+n=10
+k=3
+```{r}
+choose(9,2)*(.15)^3*(1-.15)^7
+```
+
+## b) 
+Suppose she has made two successful serves in nine attempts. What is the probability that her 10th serve will be successful?
+
+0.15
+
+## c) 
+Since her serves are independent of one another, the probability of a single serve being successful is 15%.
+
+I struggled with this question. I found the probability of getting 2 successful serves in 9 attempts:
+```{r}
+choose(9,2)*(.15)^2*(1-.15)^7
+```
+Then, multiplying that by 15%, the probability that a single serve is successful, yeilds the same solution from part a.
+
+```{r}
+0.2596674*.15
+```
+
