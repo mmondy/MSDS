@@ -1,0 +1,59 @@
+---
+title: "Week 5 Assignment"
+author: "Michelle Mondy"
+date: "September 30, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load the required packages
+```{r}
+library(dplyr)
+library(tidyr)
+```
+
+## Load the csv file 
+
+```{r}
+airline <- read.csv("airline.csv", header=TRUE)
+View(airline)
+```
+
+## Use the tidyr package to tranform the data into a tidy format. This data can then be used for analysis.
+I did this 2 different ways as shown below. 
+```{r}
+test <- gather(airline, "city", "n", 3:7)
+test2 <- spread(test, status, n)
+
+tidy_airline <- airline %>% 
+                  gather("city", "n", 3:7) %>% 
+                  spread(status, n)
+View(tidy_airline)
+```
+
+## Perform analysis to compare the arrival delays for the two airlines.
+Here I want to look at the total number of delays by airline. I can see that AM West has more total delays.
+
+```{r}
+tidy_airline %>% group_by(Airline) %>% 
+  summarise(total_delays = sum(delayed))
+```
+
+## Additional analysis to compare the ratio of delayed flights to on time flights by airline and city
+Here we can still see that AM West has a higher percentage of delays in each city.
+
+```{r}
+mutate(tidy_airline, percent_delayed = round((delayed / (delayed+`on time`)) *100, digits=2)) %>% 
+ arrange(city, desc(percent_delayed))
+
+```
+
+
+
