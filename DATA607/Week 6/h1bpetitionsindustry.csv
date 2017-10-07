@@ -1,31 +1,31 @@
 Industry,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,Total
-Custom Computer Programming Services,"83,501","81,325","51,793","58,268","64,046","90,013","90,657","102,934","128,832","140,200","108,332","999,901"
-Computer Systems Design Services,"14,469","13,803","14,029","17,099","20,831","30,665","26,397","32,664","39,384","44,130","34,462","287,933"
-"Colleges, Universities, and Professional Schools","25,770","25,132","23,026","22,365","20,601","19,804","19,178","19,090","19,540","19,634","14,913","229,053"
-Engineering Services,"8,258","7,207","6,611","5,602","5,842","3,301","3,276","6,615","7,645","8,101","7,169","69,627"
-Other Computer Related Services,"10,515","7,463","5,708","5,470","5,266","3,949","4,342","4,216","4,534","7,974","6,763","66,200"
-General Medical and Surgical Hospitals,"6,785","5,774","4,386","3,951","4,893","5,248","6,082","6,312","7,095","8,122","6,534","65,182"
-Software Publishers,"5,978","5,804","5,940","6,563","6,335","5,683","5,464","5,613","5,654","5,836","4,763","63,633"
-Elementary and Secondary Schools,"10,255","7,933","6,856","3,701","2,719","3,474","4,260","4,527","2,592","2,844","2,738","51,899"
-Investment Banking and Securities Dealing,"7,008","7,326","6,589","5,816","4,453","2,748","2,539","2,971","3,119","2,794","1,766","47,129"
-Administrative Management and General Management Consulting Services,"6,371","5,182","4,847","4,391","4,072","2,742","2,551","2,395","2,259","2,406","2,219","39,435"
-Electronic Computer Manufacturing,"2,205","2,111","2,019","1,982","2,666","3,020","2,841","3,355","3,862","4,800","3,979","32,840"
-Offices of Physicians (Except Mental Health Specialists),"2,155","1,877","1,283","1,808","1,859","1,912","2,089","2,886","4,010","4,500","4,309","28,688"
-Offices of Certified Public Accountants,"2,316","2,129","2,301","2,412","2,746","2,536","2,592","2,731","2,595","2,767","2,240","27,365"
-Semiconductor and Related Device Manufacturing,"2,219","2,012","2,320","1,727","2,109","2,124","1,873","2,515","2,825","3,569","3,380","26,673"
-Radio and Television Broadcasting and Wireless Communications Equipment Manufacturing,378,560,"1,295","1,718","1,918","2,090","2,191","2,251","2,100","2,075","1,734","18,310"
-Commercial Banking,"1,505","1,317","1,133","1,534","1,542",451,466,"1,397","2,124","2,196","2,216","15,881"
-"Offices of Physical, Occupational and Speech Therapists, and Audiologists","1,173","1,294","1,998","1,828","1,249",652,613,"1,061","1,263","1,162",972,"13,265"
-Architectural Services,"2,574","2,102","1,486","1,016",912,377,313,935,"1,063","1,088","1,067","12,933"
-Offices of Other Holding Companies,851,711,564,782,829,924,"1,142","1,367","1,503","1,572","1,547","11,792"
-Marketing Consulting Services,"1,025",847,937,911,"1,008","1,034","1,062","1,067","1,222","1,322","1,175","11,610"
-Pharmacies and Drug Stores,"1,861","1,507","1,483","1,434",999,455,341,706,737,707,503,"10,733"
-Offices of Lawyers,"1,447","1,372","1,402","1,155","1,019",308,260,882,974,930,965,"10,714"
-"All Other Professional, Scientific, and Technical Services",600,562,741,870,937,648,565,"1,076","1,249","1,376","1,383","10,007"
-"Financial Transactions Processing, Reserve, and Clearinghouse Activities",407,400,394,458,429,372,565,994,"1,442","1,463","1,577","8,501"
-Portfolio Management,564,750,871,816,882,294,264,841,"1,013","1,085","1,102","8,482"
-Other Scientific and Technical Consulting Services,557,568,646,649,584,232,353,931,"1,250","1,343","1,311","8,424"
-Investment Advice,951,947,998,815,776,184,194,595,824,906,818,"8,008"
-Credit Card Issuing,486,418,371,351,599,187,251,976,"1,525","1,343","1,457","7,964"
-Direct Health and Medical Insurance Carriers,339,386,443,438,500,562,700,878,"1,077","1,324","1,187","7,834"
-Specialty (Except Psychiatric and Substance Abuse) Hospitals,669,741,656,686,665,630,638,577,595,626,473,"6,956"
+Custom Computer Programming Services,83501,81325,51793,58268,64046,90013,90657,102934,128832,140200,108332,999901
+Computer Systems Design Services,14469,13803,14029,17099,20831,30665,26397,32664,39384,44130,34462,287933
+"Colleges, Universities, and Professional Schools",25770,25132,23026,22365,20601,19804,19178,19090,19540,19634,14913,229053
+Engineering Services,8258,7207,6611,5602,5842,3301,3276,6615,7645,8101,7169,69627
+Other Computer Related Services,10515,7463,5708,5470,5266,3949,4342,4216,4534,7974,6763,66200
+General Medical and Surgical Hospitals,6785,5774,4386,3951,4893,5248,6082,6312,7095,8122,6534,65182
+Software Publishers,5978,5804,5940,6563,6335,5683,5464,5613,5654,5836,4763,63633
+Elementary and Secondary Schools,10255,7933,6856,3701,2719,3474,4260,4527,2592,2844,2738,51899
+Investment Banking and Securities Dealing,7008,7326,6589,5816,4453,2748,2539,2971,3119,2794,1766,47129
+Administrative Management and General Management Consulting Services,6371,5182,4847,4391,4072,2742,2551,2395,2259,2406,2219,39435
+Electronic Computer Manufacturing,2205,2111,2019,1982,2666,3020,2841,3355,3862,4800,3979,32840
+Offices of Physicians (Except Mental Health Specialists),2155,1877,1283,1808,1859,1912,2089,2886,4010,4500,4309,28688
+Offices of Certified Public Accountants,2316,2129,2301,2412,2746,2536,2592,2731,2595,2767,2240,27365
+Semiconductor and Related Device Manufacturing,2219,2012,2320,1727,2109,2124,1873,2515,2825,3569,3380,26673
+Radio and Television Broadcasting and Wireless Communications Equipment Manufacturing,378,560,1295,1718,1918,2090,2191,2251,2100,2075,1734,18310
+Commercial Banking,1505,1317,1133,1534,1542,451,466,1397,2124,2196,2216,15881
+"Offices of Physical, Occupational and Speech Therapists, and Audiologists",1173,1294,1998,1828,1249,652,613,1061,1263,1162,972,13265
+Architectural Services,2574,2102,1486,1016,912,377,313,935,1063,1088,1067,12933
+Offices of Other Holding Companies,851,711,564,782,829,924,1142,1367,1503,1572,1547,11792
+Marketing Consulting Services,1025,847,937,911,1008,1034,1062,1067,1222,1322,1175,11610
+Pharmacies and Drug Stores,1861,1507,1483,1434,999,455,341,706,737,707,503,10733
+Offices of Lawyers,1447,1372,1402,1155,1019,308,260,882,974,930,965,10714
+"All Other Professional, Scientific, and Technical Services",600,562,741,870,937,648,565,1076,1249,1376,1383,10007
+"Financial Transactions Processing, Reserve, and Clearinghouse Activities",407,400,394,458,429,372,565,994,1442,1463,1577,8501
+Portfolio Management,564,750,871,816,882,294,264,841,1013,1085,1102,8482
+Other Scientific and Technical Consulting Services,557,568,646,649,584,232,353,931,1250,1343,1311,8424
+Investment Advice,951,947,998,815,776,184,194,595,824,906,818,8008
+Credit Card Issuing,486,418,371,351,599,187,251,976,1525,1343,1457,7964
+Direct Health and Medical Insurance Carriers,339,386,443,438,500,562,700,878,1077,1324,1187,7834
+Specialty (Except Psychiatric and Substance Abuse) Hospitals,669,741,656,686,665,630,638,577,595,626,473,6956
