@@ -1,0 +1,52 @@
+---
+title: "Project 2"
+author: "Michelle Mondy"
+date: "October 7, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Load the required packages
+```{r}
+library(RCurl)
+library(tidyr)
+library(dplyr)
+```
+
+#Load the csv file 
+I created a CSV file from Sedo Oh's discussion board post example. Table 1, which shows the Pre-foreclosure notices issued to 1-4 unit properties from 2011-2016.
+
+```{r}
+foreclosure_notices <- data.frame(read.csv(text = getURL("https://raw.githubusercontent.com/mmondy/MSDS/master/DATA607/Week%206/Pre-foreclosure%20notices%20nyc%20data.csv"), header = T))
+View(foreclosure_notices)
+```
+
+#Transform the data into a tidy format
+In order to do this, we need to use the tidyr and dplyr packages to put the data in a more usable format. 
+Since the last column shows the percentage change from 2015-2016 we need to drop this column as it will not be accurate once the data is transformed. We also need should note, the 6th row shows NYC overall.
+
+```{r}
+tidy_foreclosures <-  select(foreclosure_notices, -starts_with("Pct_Chg")) %>% gather("Year", "Notices", 2:7)
+head(tidy_foreclosures)
+```
+
+
+#Analysis
+The analysis requested was to see line graphs of the number of notices for each borough by year. Additionally, NYC overall is plotted on the below line graph.
+
+```{r}
+library(ggplot2)
+
+ggplot(data=tidy_foreclosures, aes(x=Year, y=Notices, group=Borough, colour=Borough)) +
+    geom_line() +
+    geom_point()
+
+```
+
