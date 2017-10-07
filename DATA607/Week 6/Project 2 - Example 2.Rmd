@@ -1,0 +1,81 @@
+---
+title: "Project 2"
+author: "Michelle Mondy"
+date: "October 7, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Load the required packages
+```{r}
+library(RCurl)
+library(tidyr)
+library(dplyr)
+```
+
+
+#Load the csv file 
+I created a CSV file from Kalyanaraman Parthasarathy's discussion board post example. The pdf included in the post shows Dallas County Real Estate statistics for the month of June and YTD (year to date). It's also broken out by All (Existing and New), Existing Homes and New Construction. For the purpose of this assignment, I will focus on the All (Existing and New) portion of the report excluding the YoY% comparisons.I also excluded the Residential (SF/COND/TH) Overall section and show only the Single Family, Condominiums and Townhouses split out. 
+
+I saved a copy of the original PDF to my github site which can be found here:
+https://github.com/mmondy/MSDS/blob/master/DATA607/Week%206/dallascountyjune2017.pdf
+
+
+```{r}
+dallas <- data.frame(read.csv(text = getURL("https://raw.githubusercontent.com/mmondy/MSDS/master/DATA607/Week%206/dallascountyjune2017.csv"), header = T))
+View(dallas)
+```
+
+#Transform & Analyze
+In order to do this, we need to use the tidyr and dplyr packages to put the data in a more usable format. There were no specific analysis requested so I will play around with the data and answer some questions I had.
+I would like to spread this dataset to be able to perform comparison analysis for June vs YTD. Specifically, I am going to look at the Closed.Sales, Dollar.Volume, Average.Price and Price.sqft fields.
+```{r}
+Closed_Sales <- select(dallas, 1:3) %>%  spread(Time.Period, Closed.Sales)
+Dollar_Volume <- select(dallas, c(Property.Type, Time.Period, Dollar.Volume)) %>%  spread(Time.Period, Dollar.Volume)
+Average_Price <- select(dallas, c(Property.Type, Time.Period, Average.Price)) %>%  spread(Time.Period, Average.Price)
+Price_sqft <- select(dallas, c(Property.Type, Time.Period, Price.sqft)) %>%  spread(Time.Period, Price.sqft)
+```
+
+#What percentage of Sales and Dollars did June have out of the year overall?
+```{r}
+summarise(Closed_Sales, June=sum(June), YTD=sum(YTD), June/YTD)
+
+summarise(Dollar_Volume, June=sum(June), YTD=sum(YTD), June/YTD)
+```
+
+#What percent change is there from June compared to YTD for the average price and price per sqft fields?
+
+```{r}
+#Percent Change by Property Type (Average Price)
+mutate(Average_Price, pct_change = (June-YTD)/YTD)
+#Overall Percent Change (Average Price)
+summarise(Average_Price, pct_chg = (sum(June)-sum(YTD))/sum(YTD))
+
+#Percent Change by Property Type (Price per SQFT)
+mutate(Price_sqft, pct_change = (June-YTD)/YTD)
+#Overall Percent Change (Price per SQFT)
+summarise(Price_sqft, pct_chg = (sum(June)-sum(YTD))/sum(YTD))
+```
+
+
+#Plot the Average_Price and Price_sqft comparisons for June and YTD
+The data were already in a usable format for this comparison, so I will use the original dallas dataset created.
+
+```{r}
+library(ggplot2)
+
+ggplot(data=dallas, aes(x=Property.Type, y=Average.Price, fill=Time.Period)) +
+    geom_bar(stat="identity", position=position_dodge(), colour="black")
+
+ggplot(data=dallas, aes(x=Property.Type, y=Price.sqft, fill=Time.Period)) +
+    geom_bar(stat="identity", position=position_dodge(), colour="black")
+```
+
