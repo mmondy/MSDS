@@ -79,3 +79,5 @@ ggplot(data=dallas, aes(x=Property.Type, y=Price.sqft, fill=Time.Period)) +
     geom_bar(stat="identity", position=position_dodge(), colour="black")
 ```
 
+#Conclusions
+June appears to have accounted for 20% of single family residences sold for the year in Dallas. It also appears that houses were selling at higher costs in June compared to the rest of the year. There are larger differences noted for Condominiums and Single Family residencies than for townhouses. Town Houses are holding steady in price per sqt foot compared to the rest of the year, as well as average price.

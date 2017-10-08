@@ -12,3 +12,63 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
+#Load the required packages
+```{r}
+library(RCurl)
+library(tidyr)
+library(dplyr)
+```
+
+
+#Load the csv file 
+I took a snippet of the H1B trend data CSV file from Sarah Wigodsky's discussion board post example. Specifically, I pulled out the Trend of H1B Petitions Filed FY 2007 Through 2017: Beneficiary Industry (Top 30). This shows the number of filings per year by the top 30 industries.
+
+I saved a copy of the original csv to my github site which can be found here:
+https://github.com/mmondy/MSDS/blob/master/DATA607/Week%206/h-1b-2007-2017-trend-tables.csv
+
+
+```{r}
+h1b <- data.frame(read.csv(text = getURL("https://raw.githubusercontent.com/mmondy/MSDS/master/DATA607/Week%206/h1bpetitionsindustry.csv"), header = T))
+View(h1b)
+```
+
+#Transform the data into a tidy format
+In order to do this, we need to use the tidyr and dplyr packages to put the data in a more usable format. 
+Since the last column shows totals, I am going to drop this column as it will not be accurate once the data is transformed. 
+
+```{r}
+tidy_h1b <-  select(h1b, -starts_with("Tot")) %>% gather("Year", "n", 2:12)
+head(tidy_h1b)
+```
+
+#Analysis
+With the data in this long format, I can plot the trend of industries by year. Since there are so many industries, I would like to subset the data for only the top 5.
+
+```{r}
+library(sqldf)
+#Find the top 5 Industries overall
+totals <- tidy_h1b %>% group_by(Industry) %>% summarise(total=sum(n))
+arrange(totals, desc(total))
+
+#Another way to do this:
+sqldf("select Industry, sum(n) from tidy_h1b group by Industry order by 2 desc limit 5")
+
+top5 <- sqldf("select * from tidy_h1b where Industry in ('Custom Computer Programming Services', 'Computer Systems Design Services', 'Colleges, Universities, and Professional Schools', 'Engineering Services', 'Other Computer Related Services')")
+```
+
+Create the charts:
+```{r}
+
+library(ggplot2)
+ggplot(data=top5, aes(x=Year, y=n, group=Industry, colour=Industry)) +
+    geom_line() +
+    geom_point()
+
+ggplot(data=top5, aes(x=Year, y=n, fill=Industry)) +
+    geom_bar(stat="identity", position=position_dodge(), colour="black")
+```
+
+#Conclusions
+The beneficiary's Industry for H1B Petitions Filed appear to be largely from Custom Computer Programming Services. Computer Systems Desgin Services appear to be somewhat related and following a similar trend. It's interesting to note that of the top 5 industries, 3-4 are related to computer services. 

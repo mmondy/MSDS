@@ -61,3 +61,6 @@ How many notices were issues by borough overall from 2011 - 2016? Again, NYC rep
 Total_Notices <- tidy_foreclosures %>% group_by(Borough) %>% summarise(total_notices=sum(Notices))
 Total_Notices %>%  arrange(desc(total_notices))
 ```
+
+#Conclusions
+As also noted in the document, there was an increase in pre-foreclosure notices from 2015 to 2016. However, it is still well below 2011. From the graph above, it looks like Queens and Brooklyn may have contributed the most to this increase. Queens and Brooklyn also have the most notices overall between 2011 and 2016. 
