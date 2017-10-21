@@ -1,6 +1,6 @@
 ---
 title: "DATA 606 Data Project Proposal"
-author: Michelle Mondy
+author: "Michelle Mondy"
 ---
 
 ### Data Preparation
@@ -9,8 +9,8 @@ I saved the csv file to my github repo and will load it in below.
 
 ```{r setup, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 # load data
-
-read.csv("C:/Users/mondy/Documents/GitHub/MSDS/DATA606")
+setwd("~/GitHub/MSDS/DATA606")
+ff_data <- read.csv("ff_data.csv", header = TRUE)
 ```
 
 
@@ -18,11 +18,20 @@ read.csv("C:/Users/mondy/Documents/GitHub/MSDS/DATA606")
 
 **You should phrase your research question in a way that matches up with the scope of inference your dataset allows for.**
 
+Is there a statistical difference between the proportion of deaths of Career vs Volunteer firefighters? What about the number of deaths due to burns and number of deaths due to Heart Attack?
 
+Other possible questions:
+Is the average age of death of a career firefighter different from a volunteer firefighter?
 
 ### Cases 
 
 **What are the cases, and how many are there?**
+
+There are 2104 cases in this data set. Each represents the death of a firefighter, including several details about their death listed below.
+
+```{r}
+names(ff_data)
+```
 
 
 
@@ -30,31 +39,34 @@ read.csv("C:/Users/mondy/Documents/GitHub/MSDS/DATA606")
 
 **Describe the method of data collection.**
 
-
+This data is collected from the fatality of an on-duty firefighter.
 
 ### Type of study 
 
 **What type of study is this (observational/experiment)?**
 
+This is an observational study.
 
 
 ### Data Source 
 
 **If you collected the data, state self-collected. If not, provide a citation/link.**
 
-
+The U.S. Fire Administration tracks and collects information on the causes of on-duty firefighter fatalities that occur in the United States. Data can be downloaded here: https://apps.usfa.fema.gov/firefighter-fatalities/
 
 
 ### Response 
 
 **What is the response variable, and what type is it (numerical/categorical)?**
 
-
+The response variable is the number of deaths and is numerical. 
 
 ### Explanatory 
 
 **What is the explanatory variable, and what type is it (numerical/categorival)?**
 
+Classification (career vs volunteer) is one of the explanatory variables which is categorical. 
+Nature.of.death is also a categorical response variable.
 
 
 ### Relevant summary statistics 
@@ -62,5 +74,45 @@ read.csv("C:/Users/mondy/Documents/GitHub/MSDS/DATA606")
 **Provide summary statistics relevant to your research question. For example, if you're comparing means across groups provide means, SDs, sample sizes of each group. This step requires the use of R, hence a code chunk is provided below. Insert more code chunks as needed.**
 
 ```{r}
+#Let's explore dataset as a whole to see the difference classifcations and Nature of deaths
+barplot(table(ff_data$Classification))
+barplot(table(ff_data$Nature.of.death))
+
+prop.table(table(ff_data$Nature.of.death))*100
+```
+
+
+
+Here I am looking for the specific proportions I am curios about. 
+```{r}
+#proportion of deaths of Career firefighters
+career <- subset(ff_data, ff_data$Classification == "Career")
+prop_career <- nrow(career)/2104
+prop_career
+
+#proportion of deaths of Volunteer firefighters
+volunteer <- subset(ff_data, ff_data$Classification == "Volunteer")
+prop_volunteer <- nrow(volunteer)/2104
+prop_volunteer
+
+#proportion of deaths due to burns
+prop_burns <- nrow(subset(ff_data, ff_data$Nature.of.death == "Burns"))/2104
+prop_burns
+
+#proportion of deaths due to Heart Attack
+prop_heart <- nrow(subset(ff_data, ff_data$Nature.of.death == "Heart Attack"))/2104
+prop_heart
 
 ```
+
+
+For the other question, I want to look at the age variable. I will need to work on removing the NA's. I can then find the mean, sd, and sample size.
+```{r}
+#Age of firefighters
+hist(ff_data$Age)
+summary(ff_data$Age)
+
+summary(career$Age)
+summary(volunteer$Age)
+```
+
