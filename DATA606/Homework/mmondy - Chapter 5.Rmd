@@ -1,0 +1,106 @@
+---
+title: "Chapter 5 HW"
+author: "Michelle Mondy"
+date: "October 24, 2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 5.6
+1. sample mean ($\bar{x}$) = midpoint of c(65,77)
+```{r}
+median(c(65,77))
+```
+2. Margin of Error:
+```{r}
+(77-65)/2
+```
+3. sample standard deviation:
+n=25, df=24, CI=.90
+```{r}
+(6/qt(.95, df=24))*sqrt(25)
+```
+
+## 5.14
+sd=250 points, ME <=25 points
+
+a. Raina should collect a sample of size 271 or larger
+```{r}
+((qnorm(.95,0,1)*250)/25)^2
+```
+
+b. Luke's sample would need to be larger than Raina's to have 99% confidence.
+
+c. Luke's sample size would need to be at least 664
+```{r}
+((qnorm(.995,0,1)*250)/25)^2
+```
+
+## 5.20
+a. There is not a clear difference in the average reading and writing scores. We can see slight differences in the boxplots, but the histogram appears to be centered mainly around zero. We need to complete a hypothesis test to determine if there is a true difference.
+
+b. The reading and writing scores of each student are paired.
+
+c. Null Hypothesis: There is no difference in the average scores of students in the reading and writing exam.
+Alternative Hypothesis: There is a difference in the average scores of students in the reading and writing exam.
+
+d. The 200 students were selected randomly and represent less than 10% of the total population of students. The sample size is at least 30. Based on the histogram, the data does not appear to be strongly skewed.
+
+e. No, the data do not provide convicing evidence of a difference between the average scores on the two exams.
+p-value > 0.05, therefore we fail to reject the null hypothesis.
+
+Test Statistic
+```{r}
+(-0.545)/(8.887/sqrt(200))
+```
+p-value:
+```{r}
+2*(pt(-0.867274, df=99))
+```
+
+f. We may have made a Type II error since we may have incorrectly failed to reject the null hypothesis. This means that there may be a difference between the average reading and writing scores, but we failed to detect it. 
+
+g. Yes, I would expect the confidence interval to include zero. Since the null hypothesis states there is no difference (the average difference would be zero), and we failed to reject it, 0 should appear in the confidence interval.
+
+## 5.32
+
+Test Statistic:
+```{r}
+(19.85-16.12)/sqrt((4.51^2/26)+(3.58^2/26))
+```
+
+df = n-1 = 25
+p-value:
+```{r}
+(1-pt(3.30302, df=25))*2
+```
+
+0.0028 < 0.05, therefore reject the null hypothesis.
+
+Since the p-value is less than 0.05, the data do provide strong evidence of a difference between the average fuel efficiancy of cars with manual and automatic transmissions in terms of average city mileage.
+
+## 5.48
+
+a. Null Hypothesis: The average number of hours worked for each group is equal to the others.
+Alternative Hypothesis: At least one pair of means is different.
+
+b. 
+Independence: We will assume that each survey respondent is independent of the others.
+Approx Normal: By examining the boxplots, the distributions appear to be mostly symmetric with some possible skewing and outliers. The sample sizes, however, are large so we can consider them approx normal.
+Constant variance: This condition is met since the standard deviations are reasonable consistent across groups.
+
+c. Using the various formula from page 250 in the textbook, I was able to fill out the information below:
+
+              DF      Sum Sq      Mean Sq       F value     Pr(>F)
+degree        4       2,006.16    501.54        2.189       0.0682
+Residuals   1,167     267,382     229.1191
+Total       1,171    269,388.2
+
+d. Since the p-value is > 0.05, we fail to reject the null hypothesis. The data do not provide convincing evidence that there is a difference between the means. 
