@@ -40,7 +40,7 @@ Take a moment to review the report then address the following questions.
     we assume about the sampling method? Does that seem like a reasonable 
     assumption?
 
-  We must assume that it is a random sample. 
+  We must assume that it is a random sample and the observations are independent. It does seem like a reasonable assumption. 
 
 ## The data
 
@@ -57,7 +57,7 @@ load("more/atheism.RData")
 3.  What does each row of Table 6 correspond to? What does each row of 
     `atheism` correspond to?
     
-    Each row of Table 6 corresponds to a country. Each row of the atheism datafram corresponds to an individuals response. 
+    Each row of Table 6 corresponds to a country. Each row of the atheism dataframe corresponds to an individual response to the survey. 
 
 To investigate the link between these two ways of organizing this data, take a 
 look at the estimated proportion of atheists in the United States. Towards 
@@ -93,8 +93,14 @@ hypothesis test.
 5.  Write out the conditions for inference to construct a 95% confidence
     interval for the proportion of atheists in the United States in 2012.
     Are you confident all conditions are met?
+    
+Conditions:
+1. the sample observations are independent
+2. success-failure condition: both are greater than 10
 
-conditions
+I am confident the conditions are met
+
+
 
 If the conditions for inference are reasonable, we can either calculate
 the standard error and construct the interval by hand, or allow the `inference`
@@ -132,16 +138,34 @@ the error margin for surveys of this kind is $\pm$ 3-5% at 95% confidence".
     the `inference` function to construct the confidence intervals.
     
 ```{r}
+#New Datasets for each country
 aus12 <- subset(atheism, nationality == "Australia" & year == "2012")
 france12 <- subset(atheism, nationality == "France" & year == "2012")
+```
 
-#Australia
+# Australia
+Conditions for inference are met
+```{r}
+#CI
 inference(aus12$response, est = "proportion", type = "ci", method = "theoretical", 
           success = "atheist")
+```
+Margin of error
+```{r}
+0.1183-0.1001
+```
 
-#France
+# France
+Conditions for inference are met
+```{r}
+#CI
 inference(france12$response, est = "proportion", type = "ci", method = "theoretical", 
           success = "atheist")
+```
+
+Margin of error
+```{r}
+0.3089-0.2873
 ```
 
 
@@ -174,6 +198,10 @@ plot(me ~ p, ylab = "Margin of Error", xlab = "Population Proportion")
 ```
 
 8.  Describe the relationship between `p` and `me`.
+
+As the population proportion gets closer to 50%, the margin of error increases, and as the population proportion approached 100% the margin of error decreases again.
+
+A 50% population proportion will have the largest margin of error.
 
 ## Success-failure condition
 
@@ -222,6 +250,12 @@ distribution.
     $p = 0.1$. Be sure to note the center, spread, and shape.\
     *Hint:* Remember that R has functions such as `mean` to calculate summary
     statistics.
+    
+The sampling distribution of sample proportions is symmetric and unimodal. It appears to follow the normal distribution and is centered at 0.09969 with a standard deviation of 0.00929  
+```{r}
+mean(p_hats)
+sd(p_hats)
+```
 
 10. Repeat the above simulation three more times but with modified sample
     sizes and proportions: for $n = 400$ and $p = 0.1$, $n = 1040$ and 
@@ -231,6 +265,51 @@ distribution.
     larger two-by-two plot. Describe the three new sampling distributions. 
     Based on these limited plots, how does $n$ appear to affect the 
     distribution of $\hat{p}$? How does $p$ affect the sampling distribution?
+    
+    
+```{r}
+#First simulation
+p <- 0.1
+n <- 400
+p_hats1 <- rep(0, 5000)
+
+for(i in 1:5000){
+  samp <- sample(c("atheist", "non_atheist"), n, replace = TRUE, prob = c(p, 1-p))
+  p_hats1[i] <- sum(samp == "atheist")/n
+}
+
+#Second similation
+p <- 0.02
+n <- 1040
+p_hats2 <- rep(0, 5000)
+
+for(i in 1:5000){
+  samp <- sample(c("atheist", "non_atheist"), n, replace = TRUE, prob = c(p, 1-p))
+  p_hats2[i] <- sum(samp == "atheist")/n
+}
+
+#Third similation
+p <- 0.02
+n <- 400
+p_hats3 <- rep(0, 5000)
+
+for(i in 1:5000){
+  samp <- sample(c("atheist", "non_atheist"), n, replace = TRUE, prob = c(p, 1-p))
+  p_hats3[i] <- sum(samp == "atheist")/n
+}
+```
+
+Plotting the histograms:
+```{r}
+par(mfrow = c(2, 2))
+hist(p_hats, main = "p = 0.1, n = 1040", xlim = c(0, 0.18))
+hist(p_hats1, main = "p = 0.1, n = 400", xlim = c(0, 0.18))
+hist(p_hats2, main = "p = 0.02, n = 1040", xlim = c(-0.01, 0.07))
+hist(p_hats3, main = "p = 0.02, n = 400", xlim = c(-0.01, 0.07))
+```
+
+The new sampling distributions are symmetric and unimodal. Based on these histogram, $n$ appear to affect the spread of the distribution. As $n$ increases, the spread decreases. $p$ appears to affect the center of the sampling distribution. 
+
 
 Once you're done, you can reset the layout of the plotting window by using the 
 command `par(mfrow = c(1, 1))` command or clicking on "Clear All" above the 
@@ -243,6 +322,8 @@ your previous plots.
     these point estimates are actually the truth. Then given the shape of 
     their respective sampling distributions, do you think it is sensible to 
     proceed with inference and report margin of errors, as the reports does?
+    
+    The shae of their sampling distributions does suggest they follow the normal distribution. However, the conditions are not met for Ecuador since .02*400 = 8. I think it would be sensible to proceed with inference and report on margin of errors for Australia. 
 
 * * *
 ## On your own
@@ -262,13 +343,48 @@ from 2005 and 2012 for 39 countries.
     confidence intervals for the true proportion of athiests in both
     years, and determine whether they overlap.
 
+Null Hypothesis: There is no difference in the atheism index for spain between 2005 and 2012.
+Alternative Hypothesis: There is a difference in the atheism index for spain between 2005 and 2012.
+    
+```{r}
+spain12 <- subset(atheism, nationality == "Spain" & year == "2012")
+spain05 <- subset(atheism, nationality == "Spain" & year == "2005")
+
+inference(spain12$response, est = "proportion", type = "ci", method = "theoretical", 
+          success = "atheist")
+inference(spain05$response, est = "proportion", type = "ci", method = "theoretical", 
+          success = "atheist")
+```
+
+Conclusion: Since the confidence intervals overlap, the data do not provide convincing evidence of a change in the atheism index for spain between 2005 and 2012.
+
+
     **b.** Is there convincing evidence that the United States has seen a
     change in its atheism index between 2005 and 2012?
+
+Null Hypothesis: There is no difference in the atheism index for the US between 2005 and 2012.
+Alternative Hypothesis: There is a difference in the atheism index for the US between 2005 and 2012.
+    
+    
+```{r}
+us05 <- subset(atheism, nationality == "United States" & year == "2005")
+inference(us12$response, est = "proportion", type = "ci", method = "theoretical", 
+          success = "atheist")
+inference(us05$response, est = "proportion", type = "ci", method = "theoretical", 
+          success = "atheist")
+```
+
+Conclusion: Since the confidence intervals do no overlap, the data do provide convincing evidence of a change in the atheism index for the US between 2005 and 2012.
 
 -   If in fact there has been no change in the atheism index in the countries 
     listed in Table 4, in how many of those countries would you expect to 
     detect a change (at a significance level of 0.05) simply by chance?\
     *Hint:* Look in the textbook index under Type 1 error.
+    
+```{r}
+.05*39
+```
+
 
 -   Suppose you're hired by the local government to estimate the proportion of 
     residents that attend a religious service on a weekly basis. According to 
@@ -278,6 +394,15 @@ from 2005 and 2012 for 39 countries.
     guidelines?\
     *Hint:* Refer to your plot of the relationship between $p$ and margin of 
     error. Do not use the data set to answer this question.
+
+Using $p$=.50 will give the most conservative Margin of error.
+
+1.96*sqrt((.5*.5)/n) <= .01
+
+You would need to sample 9604 people to ensure that you are within the guidelines
+```{r}
+(.5*.5)/(0.01/1.96)^2
+```
 
 
 <div id="license">
