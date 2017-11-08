@@ -1,0 +1,137 @@
+---
+title: "Chapter 7 HW"
+author: "Michelle Mondy"
+date: "November 7, 2017"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 7.24 Nutrition at Starbucks, Part I.
+
+## a)
+There is a weak positive linear association between the number of calories and the amount of carbohydrates (in grams) that Starbucks food menu items contain.
+
+## b)
+explanatory variable: number of calories 
+response variable: amount of carbs (in grams)
+
+## c)
+Using a regression line, we can predict the amount of carbs in Starbucks food items from the number of calories in it. This can be useful information for someone who is counting carbs. 
+
+## d)
+The data show a linear trend, the residuals are nearly normal, however, the variability of the points around the least squares line is not constant. They appear to fan out toward the right. 
+
+
+# 7.26 Body Measurements, Part III.
+
+## a)
+
+height = 0.61 * shoulder girth + 105.97
+
+```{r}
+m <- 0.67 * (9.41/10.37)
+m
+
+b <- 171.14 - m*107.20
+b
+```
+
+## b)
+
+slope: For each additional cm in shoulder girth, the model predicts an additional 0.61 cm in height.
+
+y-intercept: When you have 0 cm shoulder girth, the height is expected to be 105.97 cm. It does not make sense to have 0 cm shoulder girth and is meaningless by itself. It adjusts the height of the line.
+
+## c)
+
+R^2
+```{r}
+0.67^2
+```
+
+About 45% of the variability in height is accounted for by the model, or explained by shoulder girth. 
+
+## d)
+
+```{r}
+0.61 * 100 + 105.97
+```
+
+## e)
+
+```{r}
+160 - 166.97
+```
+
+We have a negative residual which means the model overestimates the students height. 
+
+## f)
+
+No, it would not be appropriate to use this model to predict the height of the child. 
+
+
+# 7.30 Cats, Part I.
+
+## a)
+
+height weight = 4.034 * body weight - 0.357
+
+## b)
+
+The expected heart weight for a cat that weighs 0 kg is -0.357 g. This is obviously not a meaningful value, it serves to adjust the height of the regression line.
+
+## c)
+
+For each additional kg in body weight, we expect the heart weight in grams to be higher on average by 4.034.
+
+## d)
+
+64.66% of the variability in heart weight is accounted for by the model, or explained by body weight (kg).
+
+## e)
+
+```{r}
+sqrt(0.6466)
+```
+
+
+# 7.40 Rate my professor.
+
+## a)
+
+4.010= 3.9983 - (m*-0.0883)
+```{r}
+m <- (4.010-3.9983)/0.0883
+m
+```
+
+or
+T = (estimate - null value) / SE
+```{r}
+m <- 4.13 * 0.0322 + 0
+m
+```
+
+
+## b)
+
+Yes, the data provide convincing evidence that the slope is positive. The p-value is almost 0 for the two sided alternative hypothesis, so the one sided p-value would be even smaller. Therefore, we reject the null hypothesis that the slope is 0.
+
+## c)
+
+Linearity: Yes, this condition is satisfied.
+
+Nearly normal residuals: Based on the QQ plot, we see that there is some skew to the data. You can also notice some potential outliers in the residuals plot. However, since we have a large sample and the outliers to not appear to be very influential, I would consider this condition satisfied. 
+
+Constant variability: Yes, this condition is satisfied.
+
+Independent Observations: Yes, this condition is satisfied.
