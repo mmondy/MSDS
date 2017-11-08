@@ -1,11 +1,11 @@
 ---
 title: "Introduction to linear regression"
 output:
+  pdf_document: default
   html_document:
     css: ./lab.css
     highlight: pygments
     theme: cerulean
-  pdf_document: default
 ---
 
 ## Batter up 
