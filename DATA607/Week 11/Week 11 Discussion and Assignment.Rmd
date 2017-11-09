@@ -1,0 +1,57 @@
+---
+title: 'Recommender Systems: Netflix'
+author: "Michelle Mondy"
+date: "November 8, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Recommender Systems: Netflix
+
+Netflix is an entertainment company that provides a subscription service for streaming media to its customers. Their members are able to stream any videos in their collection of movies and TV shows on a wide range of devices. They have also more recently expanded into film and television production. The company is changing the way audiences watch content. They utilize an extensive recommender system which helps their members find videos to watch in every session. 
+
+
+## Scenario Design:
+1)	Who are your target users?
+
+Netflix - The target users from the organization's perspective is anyone with a device that is connected to the internet that can stream their service. They have a wide range of members, varying in demographics, who are actively seeking shows and movies that pique their interest. 
+
+From the Netflix member's perspective, they are the target user. They are looking for entertainment that is individualized to them. 
+
+2)	What are their key goals?
+
+Netflix - The goal from an organization perspective would be to provide relevant movie and show recommendations to the member from their collection. Another goal is to continuously expand and maintain their collection. 
+
+The goal for a member is find a movie or series that keeps them engaged during their Netflix session. The entertainment they get out of the subscription needs to be worth the subscription fee. 
+
+
+3)	How can you help them accomplish those goals? 
+
+Netflix - To accomplish that goal, the company uses a recommender system and multiple algorithms to suggest relevant videos to their members.
+
+To accomplish the member's goal, Netflix needs to supply a large collection of entertainment that is relevant to their interests. 
+
+
+## Reverse Engineering:
+
+The Netflix recommender system is made up of many algorithms that all come together on the member's homepage. When you first log into Netflix, you are at the homepage and see several rows of video selections. Each row typically has its own algorithm. Some examples of rows you may see on your homepage include: Popular on Netflix, Trending Now, Top Picks, Continue Watching, Because You Watched, etc. You may also have a specific genre row based on movies and shows you have watched. Netflix utilizes the personalized video ranker algorithm which orders videos in certain rows personalized to the member. Their Top N algorithm, used for the Top Picks row, finds the best few personalized recommendations in the entire catalog for each member. There are many other algorithms used to target videos to the member for their own personalized experience. 
+
+
+## Recommendations:
+
+In order to improve the site's recommendation capabilities going forward, Netflix may want to look into expanding the metrics used in their algorithms. Some example metrics from the source cited below include: time to first play, sessions without a play, days with a play, and number of abandoned plays. 
+
+Netflix may also want to consider merging profiles from an old account with a new account. I have had instances where I need to cancel the account and start up again with a new account and lose all of my saved videos and history. Therefore, the algorithms need to learn me all over again which can be frustrating for the member.
+
+Account sharing is another challenge for Netflix. Although the company allows you to create up to 5 profiles on each account and personalizes the experience for each profile, some profiles are still used by multiple people. Improving recommendations in these types of scenarios would be interesting to see.
+
+
+## Sources:
+
+https://dl.acm.org/citation.cfm?id=2843948, The Netflix Recommender System: Algorithms, Business Value, and Innovation, CARLOS A. GOMEZ-URIBE and NEIL HUNT, Netflix, Inc.
+
+https://en.wikipedia.org/wiki/Netflix
+
